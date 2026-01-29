@@ -4,6 +4,7 @@ import { Float, MeshDistortMaterial, Sphere } from '@react-three/drei'
 import { useStore } from "./store"
 import { Kitchen } from "./Kitchen"
 import { LivingRoom } from "./LivingRoom"
+import { SimpleLivingRoom } from "./SimpleLivingRoom"
 
 export function Scene({ rotation, position, scale, ...props }) {
   const room = useStore((state) => state.room)
@@ -21,6 +22,8 @@ export function Scene({ rotation, position, scale, ...props }) {
 
       {room === 'living-room' ? (
         <LivingRoom rotation={[0, Math.PI * 1.5, 0]} position={[0, -1, 0]} scale={1.15} />
+      ) : room === 'modern-living-room' ? (
+        <SimpleLivingRoom rotation={[0, Math.PI, 0]} position={[0, -1, 0]} scale={1} />
       ) : (
         <Kitchen rotation={[0, Math.PI / 2, 0]} position={[0, -1, -0.85]} />
       )}

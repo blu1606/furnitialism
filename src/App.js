@@ -299,6 +299,14 @@ function Effects() {
         ], 0.3, delta)
         state.camera.lookAt(state.camera.position.x * 0.8, 0.3, -4)
         state.camera.zoom = 1.00
+      } else if (room === 'modern-living-room') {
+        easing.damp3(state.camera.position, [
+          state.pointer.x * 0.5 + swayX,
+          0.5 + state.pointer.y * 0.2 + swayY,
+          6 + Math.atan(state.pointer.x)
+        ], 0.3, delta)
+        state.camera.lookAt(0, 0, -4)
+        state.camera.zoom = 1.00
       } else {
         easing.damp3(state.camera.position, [
           state.pointer.x + swayX,
