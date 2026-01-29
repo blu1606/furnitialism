@@ -8,7 +8,16 @@ const AIChat = () => {
     { role: 'assistant', content: 'Hello! I am your AI Interior Assistant. I can help you find furniture, suggest matching sets, and even adjust the room lighting. How can I assist you today?' }
   ]);
   const messagesEndRef = useRef(null);
-  const { room, selected, setSelected, setRoom, addToCart } = useStore();
+  const { room, selected, setSelected, setRoom, addToCart, isSelecting, setIsSelecting } = useStore();
+
+  // Watch for selection when in selection mode
+  useEffect(() => {
+    if (isSelecting && selected && FURNITURE_DATA[selected]) {
+      const itemName = FURNITURE_DATA[selected].name;
+      setMessage(prev => prev ? `${prev} #${itemName}` : `#${itemName}`);
+      setIsSelecting(false); // Auto-turn off after selection
+    }
+  }, [selected, isSelecting]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -70,7 +79,7 @@ const AIChat = () => {
           setSelected(bestMatch.id);
           aiResponse = `I found ${affordableItems.length} items under $${priceLimit}. I've highlighted the ${bestMatch.name} ($${bestMatch.price}) as a great starting point.`;
         } else {
-          aiResponse = `I'm sorry, I couldn't find anything under $${priceLimit}. Our most affordable item is the ${Object.values(FURNITURE_DATA).sort((a,b) => a.price - b.price)[0].name}.`;
+          aiResponse = `I'm sorry, I couldn't find anything under $${priceLimit}. Our most affordable item is the ${Object.values(FURNITURE_DATA).sort((a, b) => a.price - b.price)[0].name}.`;
         }
       }
       // 5. Lighting Control (Mockup)
@@ -90,26 +99,30 @@ const AIChat = () => {
 
   return (
     <>
-      <div className={`ai-chat-trigger ${isOpen ? 'active' : ''}`} onClick={() => setIsOpen(!isOpen)}>
+      <div className={`ai-chat-trigger glass-panel ${isOpen ? 'active' : ''}`} onClick={() => setIsOpen(!isOpen)}>
         <div className="ai-icon-pulse"></div>
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
-          <path d="M12 2a10 10 0 0 1 10 10h-10V2z" opacity="0.3"></path>
-          <path d="M12 12l8.5 8.5"></path>
-          <circle cx="12" cy="12" r="3"></circle>
-        </svg>
+        {isOpen ? (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        ) : (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d4a373" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        )}
       </div>
 
       <div className={`ai-chat-window glass-panel ${isOpen ? 'active' : ''}`}>
         <div className="ai-chat-header">
           <div className="ai-header-info">
+            <h3>AI CONCIERGE</h3>
             <div className="ai-status-indicator">
               <span className="ai-status-dot"></span>
-              <span className="ai-status-text">Online</span>
+              <span className="ai-status-text">Ready to assist</span>
             </div>
-            <h3>Interior AI Assistant</h3>
           </div>
-          <button className="close-chat" onClick={() => setIsOpen(false)}>
+          <button className="close-btn" style={{ position: 'relative', top: 'auto', right: 'auto' }} onClick={() => setIsOpen(false)}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -135,11 +148,29 @@ const AIChat = () => {
         </div>
 
         <div className="ai-chat-input-area">
+          {isSelecting && (
+            <div className="selection-active-badge">
+              <span>● Selection Mode Active</span>
+              <button onClick={() => setIsSelecting(false)}>Cancel</button>
+            </div>
+          )}
           <div className="input-wrapper">
+            <button
+              className={`ai-selector-btn ${isSelecting ? 'active' : ''}`}
+              onClick={() => setIsSelecting(!isSelecting)}
+              title="Select object from room"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+            </button>
             <input
               type="text"
-              placeholder="Ask about products, style or lighting..."
+              placeholder={isSelecting ? "Click an object in the room..." : "Ask about products, style or lighting..."}
               value={message}
+              readOnly={isSelecting}
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             />

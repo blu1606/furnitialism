@@ -8,7 +8,15 @@ export const useStore = create((set) => ({
   orbitEnabled: false,
   cart: [],
   showCart: false,
+  standaloneView: null, // null or item ID
+  isSelecting: false, // For AI chat object selection
+  showForge: false,
+  forgeStep: 0, // 0: Idle, 1: Uploaded/Analyzing, 2: Reconstructing, 3: Texturing, 4: Done
+  setForgeStep: (step) => set({ forgeStep: step }),
+  setShowForge: (show) => set({ showForge: show, forgeStep: show ? 0 : 0 }),
+  setIsSelecting: (isSelecting) => set({ isSelecting }),
   setShowCart: (show) => set({ showCart: show }),
+  setStandaloneView: (id) => set({ standaloneView: id }),
   animState: { active: false, startPos: [0, 0], endPos: [0, 0], image: null },
   triggerAnimation: (start, end, image) => set({ animState: { active: true, startPos: start, endPos: end, image: image } }),
   endAnimation: () => set({ animState: { active: false, startPos: [0, 0], endPos: [0, 0], image: null } }),
@@ -49,9 +57,9 @@ export const FURNITURE_DATA = {
   VOXLÖV: {
     id: 'VOXLÖV',
     name: "VOXLÖV Dining Table",
-    price: 1699,
+    price: 349,
     image: "/images/products/table.jpg",
-    description: "Light bamboo table. Sturdy, sustainable and easy to clean.",
+    description: "Solid bamboo dining table with a natural, light aesthetic.",
     dimensions: "180x90 cm",
     stock: 5
   },
@@ -126,6 +134,69 @@ export const FURNITURE_DATA = {
     description: "Contemporary abstract painting for modern spaces.",
     dimensions: "80x100 cm",
     stock: 10
+  },
+  MODERN_SOFA: {
+    id: 'MODERN_SOFA',
+    name: "Modern Minimalist Sofa",
+    price: 1899,
+    image: "/images/products/rug.jpg",
+    description: "A sleek, low-profile sofa designed for modern living spaces.",
+    dimensions: "220x95x75 cm",
+    stock: 10
+  },
+  MODERN_COFFEE_TABLE: {
+    id: 'MODERN_COFFEE_TABLE',
+    name: "Sleek Coffee Table",
+    price: 450,
+    image: "/images/products/table.jpg",
+    description: "Minimalist coffee table with a natural wood finish.",
+    dimensions: "110x60x35 cm",
+    stock: 15
+  },
+  MODERN_END_TABLE: {
+    id: 'MODERN_END_TABLE',
+    name: "Minimal End Table",
+    price: 220,
+    image: "/images/products/table.jpg",
+    description: "Compact side table perfect for living room corners.",
+    dimensions: "45x45x50 cm",
+    stock: 20
+  },
+  MODERN_CARPET: {
+    id: 'MODERN_CARPET',
+    name: "Geometric Area Rug",
+    price: 350,
+    image: "/images/products/rug.jpg",
+    description: "Soft pile rug with a modern geometric pattern.",
+    dimensions: "200x300 cm",
+    stock: 12
+  },
+  MODERN_POT: {
+    id: 'MODERN_POT',
+    name: "Architectural Planter",
+    price: 120,
+    image: "/images/products/vase.jpg",
+    description: "Ceramic planter with a unique geometric shape.",
+    dimensions: "30x30x40 cm",
+    stock: 25
+  },
+  MODERN_PAINTING: {
+    id: 'MODERN_PAINTING',
+    name: "Contemporary Canvas",
+    price: 280,
+    image: "/images/products/vase.jpg",
+    description: "Original canvas art piece for modern interiors.",
+    dimensions: "100x120 cm",
+    stock: 8
+  },
+  MODERN_TV: {
+    id: 'MODERN_TV',
+    name: "Ultra Slim 4K TV",
+    price: 1100,
+    image: "/images/products/lamp.jpg",
+    description: "Latest 4K smart TV with ultra-thin bezels.",
+    dimensions: "145x83x2 cm",
+    stock: 5
   }
 }
 

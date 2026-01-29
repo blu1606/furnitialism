@@ -7,7 +7,7 @@ import { useStore } from "./store"
 
 export function LivingRoom(props) {
   const setSelected = useStore((state) => state.setSelected)
-  const { nodes, materials } = useGLTF("/white_modern_living_room.glb")
+  const { nodes, materials } = useGLTF("/white_modern_living_room-transformed.glb")
   const env = useEnvironment({ preset: "city" })
 
   const [hovered, hover] = useState(null)
@@ -65,9 +65,9 @@ export function LivingRoom(props) {
       <Text position={[1.5, 1, 1.2]} color="black" fontSize={0.2} font="Inter-Regular.woff" letterSpacing={-0.05}>
         {hovered ? hovered.replace('_', ' ') : "LIVING ROOM"}
       </Text>
-      <Price value={price} position={[0.02, 0.6, 1.2]} scale={0.32} maskHeight={1.4} step={3} />
+      <Price value={price} position={[-1, 0.25, -3]} scale={0.8} maskHeight={1.4} step={3} />
     </>
   )
 }
 
-useGLTF.preload('/white_modern_living_room.glb')
+useGLTF.preload('/white_modern_living_room-transformed.glb')

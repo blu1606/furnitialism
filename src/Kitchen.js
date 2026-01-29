@@ -58,7 +58,7 @@ export function Kitchen(props) {
       <Text position={[1, 1.25, 0]} color="black" fontSize={0.15} font="Inter-Regular.woff" letterSpacing={-0.05}>
         {hovered ? hovered : "KNOXHULT"}
       </Text>
-      <Price value={price} position={[-2, 0.3, -3.25]} />
+      <Price value={price} position={[-2, 0.3, -3.25]} color="#ffffff" />
     </>
   )
 }

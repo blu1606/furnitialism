@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useStore } from './store';
 
 export const CoreHub = () => {
-    const { view, setView, room, setRoom, setShowCart, cart, orbitEnabled, setOrbitEnabled, setCheckoutStep } = useStore();
+    const { view, setView, room, setRoom, setShowCart, cart, orbitEnabled, setOrbitEnabled, setCheckoutStep, showForge, setShowForge } = useStore();
     const [isGlitching, setIsGlitching] = useState(false);
     const [roomMenuOpen, setRoomMenuOpen] = useState(false);
 
@@ -71,13 +71,31 @@ export const CoreHub = () => {
                 <span className="hub-label">COLLECTION</span>
             </button>
 
-            {/* 3. CART */}
+            {/* 3. ORBIT */}
+            <button
+                className={`hub-btn ${orbitEnabled ? 'active' : ''}`}
+                onClick={() => setOrbitEnabled(!orbitEnabled)}
+            >
+                <span className={`hub-dot-indicator ${orbitEnabled ? '' : 'secondary'}`}></span>
+                <span className="hub-label">ORBIT</span>
+            </button>
+
+            {/* 4. CART */}
             <button
                 className="hub-btn"
                 onClick={() => setShowCart(true)}
             >
                 <span className="hub-dot-indicator secondary"></span>
                 <span className="hub-label">CART ({cart.length})</span>
+            </button>
+
+            {/* 5. AI FORGE */}
+            <button
+                className={`hub-btn ${showForge ? 'active' : ''}`}
+                onClick={() => setShowForge(true)}
+            >
+                <span className={`hub-dot-indicator ${showForge ? '' : 'secondary'}`}></span>
+                <span className="hub-label">FORGE</span>
             </button>
         </div>
     );
