@@ -6,7 +6,7 @@
 
 ## Overview
 - Priority: P2
-- Status: in-progress
+- Status: completed
 - Brief description: Update the user interface to allow switching to the new room and ensure the product collection view reflects the new items.
 
 ## Implementation Steps
@@ -21,9 +21,9 @@
     *   Verify "AI Search" and "View 3D" buttons work from the collection view.
 
 ## Todo List
-- [ ] Add new room option to `CoreHub.js`.
-- [ ] Verify room switching functionality.
-- [ ] Final end-to-end test of the catalog system.
+- [x] Add new room option to `CoreHub.js`.
+- [x] Verify room switching functionality.
+- [x] Final end-to-end test of the catalog system.
 
 ## Success Criteria
 - Users can toggle between Kitchen, Living Room, and Modern Room via the UI.

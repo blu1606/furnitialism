@@ -26,7 +26,19 @@ export const CoreHub = () => {
         return () => window.removeEventListener('click', handleClickOutside);
     }, []);
 
-    const activeRoomLabel = room === 'living-room' ? 'LIVING ROOM' : 'KITCHEN';
+    const handleRoomSelect = (roomId) => {
+        setView('home');
+        setRoom(roomId);
+        setRoomMenuOpen(false);
+    };
+
+    const ROOM_LABELS = {
+        'kitchen': 'KITCHEN',
+        'living-room': 'LIVING ROOM',
+        'modern-living-room': 'MODERN ROOM'
+    };
+
+    const activeRoomLabel = ROOM_LABELS[room] || 'KITCHEN';
 
     return (
         <div className="core-hub-container-horizontal">
@@ -48,15 +60,21 @@ export const CoreHub = () => {
                     <div className="hub-dropdown">
                         <div
                             className={`dropdown-item ${room === 'kitchen' ? 'active' : ''}`}
-                            onClick={(e) => { e.stopPropagation(); setView('home'); setRoom('kitchen'); setRoomMenuOpen(false); }}
+                            onClick={(e) => { e.stopPropagation(); handleRoomSelect('kitchen'); }}
                         >
                             KITCHEN
                         </div>
                         <div
                             className={`dropdown-item ${room === 'living-room' ? 'active' : ''}`}
-                            onClick={(e) => { e.stopPropagation(); setView('home'); setRoom('living-room'); setRoomMenuOpen(false); }}
+                            onClick={(e) => { e.stopPropagation(); handleRoomSelect('living-room'); }}
                         >
                             LIVING ROOM
+                        </div>
+                        <div
+                            className={`dropdown-item ${room === 'modern-living-room' ? 'active' : ''}`}
+                            onClick={(e) => { e.stopPropagation(); handleRoomSelect('modern-living-room'); }}
+                        >
+                            MODERN ROOM
                         </div>
                     </div>
                 )}

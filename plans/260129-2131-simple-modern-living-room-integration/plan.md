@@ -1,7 +1,7 @@
 ---
 title: "Simple Modern Living Room Integration"
 description: "Integrate a new 3D room with interactive items into the catalog system."
-status: in-progress
+status: completed
 priority: P1
 effort: 4h
 branch: master
@@ -22,7 +22,7 @@ This plan details the integration of the `simple_modern_living_room.glb` model i
     *   Create `src/SimpleLivingRoom.js`.
     *   Integrate into `src/Scene.js`.
     *   Configure interactions and highlighting.
-3.  **Phase 3: UI Integration** (in-progress)
+3.  **Phase 3: UI Integration** (completed)
     *   Update `src/CoreHub.js` to include the new room.
     *   Verify room switching and camera transitions in `src/App.js`.
 
