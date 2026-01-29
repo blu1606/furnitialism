@@ -11,20 +11,6 @@ export function Scene({ rotation, position, scale, ...props }) {
 
   return (
     <group {...props}>
-      {/* 3D AI Agent Representation - Futuristic Glowing Orb */}
-      <Float speed={1.5} rotationIntensity={2} floatIntensity={2}>
-        <Sphere args={[0.2, 32, 32]} position={[2, 2, -2]}>
-          <MeshDistortMaterial
-            color="#7C3AED"
-            speed={5}
-            distort={0.4}
-            radius={1}
-            emissive="#A78BFA"
-            emissiveIntensity={2}
-          />
-          <pointLight intensity={10} distance={5} color="#A78BFA" />
-        </Sphere>
-      </Float>
 
       {/* Dynamic Environment Lighting based on room context */}
       <directionalLight

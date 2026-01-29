@@ -7,14 +7,26 @@ export const useStore = create((set) => ({
   selected: null,
   orbitEnabled: false,
   cart: [],
+  showCart: false,
+  setShowCart: (show) => set({ showCart: show }),
+  animState: { active: false, startPos: [0, 0], endPos: [0, 0], image: null },
+  triggerAnimation: (start, end, image) => set({ animState: { active: true, startPos: start, endPos: end, image: image } }),
+  endAnimation: () => set({ animState: { active: false, startPos: [0, 0], endPos: [0, 0], image: null } }),
   setView: (view) => set({ view }),
   setRoom: (room) => set({ room, selected: null }),
   setScanning: (isScanning) => set({ isScanning }),
   setOrbitEnabled: (orbitEnabled) => set({ orbitEnabled }),
   setSelected: (id) => set({ selected: id, view: 'home' }), // Auto-switch to 3D when item selected
-  addToCart: (item) => set((state) => ({
-    cart: [...state.cart, { ...item, timestamp: Date.now() }]
-  })),
+  addToCart: (item, startPos) => {
+    set((state) => ({
+      cart: [...state.cart, { ...item, timestamp: Date.now() }]
+    }));
+    // Trigger Animation if startPos is provided
+    if (startPos) {
+      const endPos = window.getCartPosition ? window.getCartPosition() : [window.innerWidth - 50, 50];
+      set({ animState: { active: true, startPos: startPos, endPos: endPos, image: item.image } });
+    }
+  },
   removeFromCart: (timestamp) => set((state) => ({
     cart: state.cart.filter((item) => item.timestamp !== timestamp)
   })),

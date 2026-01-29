@@ -8,11 +8,12 @@ import { Scene } from "./Scene"
 import { useStore, FURNITURE_DATA } from "./store"
 import { CheckoutOverlay } from "./CheckoutOverlay"
 import AIChat from "./AIChat"
+import { CoreHub } from "./CoreHub"
+import { CartNotification } from "./CartNotification"
 
 export const App = () => {
-  const { view, setView, room, setRoom, isScanning, setScanning, orbitEnabled, setOrbitEnabled, selected, setSelected, clearSelected, addToCart, cart, removeFromCart, checkoutStep, setCheckoutStep } = useStore()
+  const { view, setView, room, setRoom, isScanning, setScanning, orbitEnabled, setOrbitEnabled, selected, setSelected, clearSelected, addToCart, cart, removeFromCart, checkoutStep, setCheckoutStep, showCart, setShowCart } = useStore()
   const [isTransitioning, setTransitioning] = useState(false)
-  const [showCart, setShowCart] = useState(false)
   const selectedData = selected ? FURNITURE_DATA[selected] : null
 
   const handleViewChange = (newView) => {
@@ -45,31 +46,9 @@ export const App = () => {
   return (
     <div className={`app-container view-${view} ${isTransitioning ? 'view-transitioning' : ''}`}>
       {/* Navigation Header */}
-      <nav className="main-nav glass-panel">
-        <div className="nav-logo" onClick={() => handleViewChange('home')}>LUXE 3D</div>
-        <div className="nav-links">
-          <button className={view === 'home' ? 'active' : ''} onClick={() => handleViewChange('home')}>3D Experience</button>
-          <button className={view === 'products' ? 'active' : ''} onClick={() => handleViewChange('products')}>Collection</button>
-          <div className="room-selector">
-            <button className={room === 'kitchen' ? 'active' : ''} onClick={() => handleRoomChange('kitchen')}>Kitchen</button>
-            <button className={room === 'living-room' ? 'active' : ''} onClick={() => handleRoomChange('living-room')}>Living Room</button>
-          </div>
-        </div>
-        <div className="nav-cart-trigger" onClick={() => setShowCart(!showCart)}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-          <span className="cart-count">{cart.length}</span>
-        </div>
-        <div className="nav-dev-tools">
-          <button
-            className={`dev-toggle ${orbitEnabled ? 'active' : ''}`}
-            onClick={() => setOrbitEnabled(!orbitEnabled)}
-            title="Toggle Orbit Controls (Dev Mode)"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><polyline points="21 3 21 8 16 8"></polyline></svg>
-            <span>Orbit</span>
-          </button>
-        </div>
-      </nav>
+      {/* Navigation Header - Replaced by CoreHub */}
+      <CoreHub />
+      <CartNotification />
 
       {/* Main Content Area */}
       <div className="content-viewport">
@@ -150,7 +129,32 @@ export const App = () => {
               <span>{selectedData.stock} in stock</span>
             </div>
           </div>
-          <button className="add-btn" onClick={() => addToCart(selectedData)}>
+          <button className="add-btn" onClick={(e) => {
+            // Calculate screen position roughly for standard HTML elements
+            // If this was 3D, we'd use e.point. Since this is the overlay, we use the button position.
+            // However, ideally the "Orb" starts from the 3D model center.
+            // Let's use the object center from the 3D projection if possible, OR just the button center.
+            // Since selectedData doesn't give us the 3D position directly here easily without more wiring,
+            // using the button center as the start point is a safe visual proxy.
+            const rect = e.target.getBoundingClientRect();
+            const startPos = [rect.left + rect.width / 2, rect.top + rect.height / 2];
+
+            // But wait! The Orb is in the 3D canvas.
+            // If we pass screen coords [x, y], the CartOrb (R3F) needs to know how to position itself.
+            // Our CartOrb logic effectively expects a 3D Vector for startPos? 
+            // NO, our CartOrb logic in store/CartOrb currently treats startPos as a 3D World Vector 
+            // in the initialization: startVec.current.set(...animState.startPos);
+
+            // Issue: "addToCart" in 2D overlay gives 2D coords. "addToCart" in 3D scene gives 3D coords.
+            // We need to handle both cases or unify them.
+            // Let's modify CartOrb to accept SCREEN COORDS for start and project them to 3D.
+            // OR passing a 3D vector [0,0,0] (center) if triggered from 2D overlay.
+            // Since we want the "Orb" to start from the object, let's assume [0,0,0] for now or use the button.
+
+            // For this overlay (Detail Panel), let's just trigger it without position (no orb) OR
+            // pass a dummy 3D position [0, 0, 0] assuming object is centered.
+            addToCart(selectedData, [0, 1, 0], selectedData.image);
+          }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
             Add to Cart
           </button>
