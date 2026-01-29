@@ -8,7 +8,7 @@
 
 ## Overview
 - Priority: P1
-- Status: pending
+- Status: completed
 - Brief description: Create the 3D scene component for the new room and integrate it into the main scene manager.
 
 ## Architecture
@@ -43,9 +43,9 @@
     *   In `Effects` component, add a new camera positioning logic for `room === 'modern-living-room'`.
 
 ## Todo List
-- [ ] Create `SimpleLivingRoom.js`.
-- [ ] Register `SimpleLivingRoom` in `Scene.js`.
-- [ ] Implement camera damping logic for the new room in `App.js`.
+- [x] Create `SimpleLivingRoom.js`.
+- [x] Register `SimpleLivingRoom` in `Scene.js`.
+- [x] Implement camera damping logic for the new room in `App.js`.
 
 ## Success Criteria
 - The 3D scene loads correctly when the room state is changed.

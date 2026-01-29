@@ -6,7 +6,7 @@
 
 ## Overview
 - Priority: P2
-- Status: pending
+- Status: in-progress
 - Brief description: Update the user interface to allow switching to the new room and ensure the product collection view reflects the new items.
 
 ## Implementation Steps
