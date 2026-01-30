@@ -1,7 +1,7 @@
 import create from 'zustand'
 
 export const useStore = create((set) => ({
-  view: 'home', // 'home' (3D), 'products' (Grid)
+  view: 'landing', // 'landing', 'home' (3D), 'products' (Grid)
   room: 'kitchen', // 'kitchen' or 'living-room'
   isScanning: false,
   selected: null,

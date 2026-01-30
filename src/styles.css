@@ -14,6 +14,54 @@
   --arctic-cyan-glow: rgba(0, 210, 255, 0.4);
 }
 
+/* Landing Page Custom Styles */
+.glass-card {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.gold-glow {
+  box-shadow: 0 0 80px -20px rgba(212, 163, 115, 0.4);
+}
+
+.cyan-glow {
+  box-shadow: 0 0 80px -20px rgba(0, 210, 255, 0.3);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(to right, #1c1917, #85684a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes pulse-cyan {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0px rgba(0, 210, 255, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 20px 2px rgba(0, 210, 255, 0.3);
+  }
+}
+
+.hover-pulse:hover {
+  animation: pulse-cyan 2s infinite;
+  border-color: rgba(0, 210, 255, 0.3);
+}
+
+.text-glow-primary {
+  color: #d4a373;
+  text-shadow: 0 0 20px rgba(212, 163, 115, 0.4);
+}
+
+.video-glow-hover:hover {
+  box-shadow: 0 0 40px -10px rgba(212, 163, 115, 0.6);
+}
+
 /* AI Chatbot Styles - Redesigned */
 .ai-chat-trigger {
   position: fixed !important;
