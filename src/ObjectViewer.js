@@ -8,8 +8,6 @@ function Model({ id }) {
     let glbPath = "/white_modern_living_room-transformed.glb"
     if (['KNOXHULT', 'BRÖNDEN', 'SKAFTET', 'FANBYN', 'VOXLÖV', 'LIVSVERK'].includes(id)) {
         glbPath = "/kitchen-transformed.glb"
-    } else if (id.startsWith('MODERN_')) {
-        glbPath = "/simple_modern_living_room.glb"
     }
 
     const { nodes } = useGLTF(glbPath)
@@ -28,23 +26,7 @@ function Model({ id }) {
         'TV': [nodes.TV_TV_0, nodes.TVStand_TVStand_0],
         'ABSTRACT_ART': [nodes.AbstractArt_AbstractArt_0, nodes.PictureFrame_Material_0],
         'LAMP': [nodes.Lamp_Lamp_0],
-        'PLANT': [nodes.Plant__0],
-        // New Modern Living Room mappings
-        'MODERN_SOFA': [nodes['Modern Living Room_Sofa_0']],
-        'MODERN_COFFEE_TABLE': [nodes['Modern Living Room_CoffeeTable_0']],
-        'MODERN_END_TABLE': [nodes['Modern Living Room_EndTable_0']],
-        'MODERN_CARPET': [nodes['Modern Living Room_Carpet_0']],
-        'MODERN_POT': [
-            nodes['Modern Living Room_Pot_0'],
-            nodes['Modern Living Room_Pebbles_0'],
-            nodes['Modern Living Room_Leaves_0'],
-            nodes['Modern Living Room_Bark_0']
-        ],
-        'MODERN_PAINTING': [
-            nodes['Modern Living Room_Painting_0'],
-            nodes['Modern Living Room_Frame_0']
-        ],
-        'MODERN_TV': [nodes['Modern Living Room_TVScreen_0']]
+        'PLANT': [nodes.Plant__0]
     }
 
     const meshes = nodeMapping[id] || []
