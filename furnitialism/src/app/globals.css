@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #d4a373;
+  --color-background-light: #fafaf9;
+  --color-background-dark: #0c0a09;
+  --color-arctic-cyan: #00d2ff;
+  
+  --shadow-premium: 0 40px 100px -20px rgba(0, 0, 0, 0.15);
+  
+  --animate-pulse-cyan: pulse-cyan 2s infinite;
+  --animate-scan: scan 3s linear infinite;
+  --animate-grid-pulse: grid-pulse 4s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 2s infinite;
+
+  @keyframes pulse-cyan {
+    0%, 100% { box-shadow: 0 0 0 0px rgba(0, 210, 255, 0); }
+    50% { box-shadow: 0 0 20px 2px rgba(0, 210, 255, 0.3); }
+  }
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+  @keyframes grid-pulse {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.3; }
+  }
+  @keyframes pulse-ring {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    100% { transform: scale(1.2); opacity: 0; }
+  }
+}
+
+:root {
+  --background: #fafaf9;
+  --foreground: #1c1917;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0c0a09;
+    --foreground: #fafaf9;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Utilities */
+@utility glass-card {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+@utility gold-glow {
+  box-shadow: 0 0 80px -20px rgba(212, 163, 115, 0.4);
+}
+
+@utility cyan-glow {
+  box-shadow: 0 0 80px -20px rgba(0, 210, 255, 0.3);
+}
+
+@utility text-glow-primary {
+  color: #d4a373;
+  text-shadow: 0 0 20px rgba(212, 163, 115, 0.4);
+}
+
+@utility video-glow-hover {
+  &:hover {
+    box-shadow: 0 0 40px -10px rgba(212, 163, 115, 0.6);
+  }
+}
+
+@utility hover-pulse {
+  &:hover {
+    animation: var(--animate-pulse-cyan);
+    border-color: rgba(0, 210, 255, 0.3);
+  }
+}
