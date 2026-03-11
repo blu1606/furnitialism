@@ -31,7 +31,8 @@ export const App = () => {
     } else if (view === 'products' && location.pathname !== '/shop') {
       navigate('/shop', { replace: true });
     }
-  }, [view, location.pathname, navigate]); // React to view changes, block on /ar/
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view]); // ONLY react to view changes to prevent race conditions
 
   // Sync URL -> state "view"
   useEffect(() => {
@@ -44,7 +45,8 @@ export const App = () => {
     } else if (location.pathname === '/' || location.pathname === '') {
       navigate('/shop/showroom', { replace: true }); // Default route is showroom
     }
-  }, [location.pathname, view, setView, navigate]); // Only react to URL changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]); // ONLY react to URL changes to prevent race conditions
   const selectedData = selected ? FURNITURE_DATA[selected] : null
 
   const handleViewChange = (newView) => {
@@ -90,7 +92,7 @@ export const App = () => {
 
             {/* Main Content Area */}
             <div className="content-viewport">
-              {view === 'home' ? (
+              <div style={{ display: view === 'home' ? 'block' : 'none', width: '100%', height: '100%' }}>
                 <Canvas flat dpr={[1, 1.5]} gl={{ antialias: false }} camera={{ position: [0, 1, 6], fov: 25, near: 1, far: 20 }}>
                   <ambientLight intensity={1.5 * Math.PI} />
                   <Sky />
@@ -103,10 +105,12 @@ export const App = () => {
                     </Selection>
                   </Bvh>
                 </Canvas>
-              ) : (
+              </div>
+
+              <div style={{ display: view === 'products' ? 'block' : 'none', width: '100%', height: '100%', overflowY: 'auto' }}>
                 <div className="product-grid-container">
                   <header className="grid-header">
-                    <h1>The Kitchen Collection</h1>
+                    <h1>The Collection</h1>
                     <p>Explore our premium modular furniture designed for high-end living.</p>
                   </header>
                   <div className="product-grid">
@@ -137,7 +141,7 @@ export const App = () => {
                     ))}
                   </div>
                 </div>
-              )}
+              </div>
             </div>
 
             {/* AI Scanning Overlay */}
