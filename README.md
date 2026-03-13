@@ -1,35 +1,51 @@
-# Web 3D Furniture Catalog
+# Furnitialism: Next-Gen 3D & AR E-commerce
 
-A high-end, interactive 3D furniture catalog built with React Three Fiber, showcasing modular furniture in immersive digital twin environments.
+A high-end, interactive 3D furniture catalog showcasing modular furniture in immersive digital environments. Furnitialism redefines the e-commerce shopping experience through the power of WebGL and Augmented Reality (AR).
 
-## Features
-- **Immersive 3D Scenes**: Toggle between different room environments (Kitchen, Living Room, Simple Modern Living Room).
-- **Interactive Catalog**: Hover and select furniture items to see details, pricing, and 3D highlights.
-- **AI-Powered Integration**:
-    - **AI Search/Scanning**: Simulated AI analysis of 3D models to locate furniture.
-    - **AI Chat**: Context-aware assistant for furniture selection and interior design.
-    - **AI Forge**: Mockup of image-to-3D reconstruction technology.
-- **Seamless E-commerce Flow**: Add items to cart with 3D animation, manage selections, and proceed to checkout.
-- **Glassmorphism UI**: Modern, sleek interface with blur effects and clean typography.
-- **Developer Tools**: Real-time camera tracker HUD for scene composition.
+## 🏗 Modular Architecture (Dual-App)
 
-## Tech Stack
-- **Frontend**: React 18
-- **3D Engine**: React Three Fiber (R3F)
-- **3D Utilities**: @react-three/drei
-- **State Management**: Zustand
-- **Post-processing**: @react-three/postprocessing (N8AO, Outline, TiltShift, ToneMapping)
-- **Styling**: CSS (Modern layout, Glassmorphism)
-- **Workflow**: ClaudeKit (Agentic development)
+The project is split into two specialized applications to maximize SEO performance and 3D rendering capabilities simultaneously:
 
-## Getting Started
-1. Install dependencies: `npm install`
-2. Start development server: `npm start`
-3. Build for production: `npm run build`
+### 1. The Gateway (`/furnitialism`)
+- **Role**: Marketing Landing Page & SEO Gateway.
+- **Tech Stack**: Next.js 15 (App Router), React 19, Tailwind CSS v4, TypeScript.
+- **Features**: Ultra-fast load times, Server-Side Rendering (SSR), Curated aesthetic sections designed to convert traffic.
 
-## Project Structure
-- `src/`: Core logic and R3F components.
-- `public/`: 3D models (.glb), textures, and static assets.
-- `docs/`: Technical documentation and architecture guides.
-- `plans/`: Implementation plans and progress reports.
-- `agy-ck/`: ClaudeKit agent configurations and workflows.
+### 2. The 3D Engine (`/furnitialism-dashboard`)
+- **Role**: Immersive E-commerce Dashboard & 3D Viewer.
+- **Tech Stack**: Vite, React 18, React Three Fiber (R3F), Zustand, React Router.
+- **Features**:
+  - **Immersive 3D Scenes**: Walk through Curated Rooms (Kitchen, Living Room).
+  - **Native AR Experience**: Deep-linked QR Codes to bring furniture directly into your physical space via `@google/model-viewer` (Android Scene Viewer & iOS AR Quick Look).
+  - **Dynamic E-commerce Flow**: Interact with products, fly-in cart animations, and checkout overlay.
+  - **AI Tooling**: AI Scene Scanner, AI Furniture Forge representation.
+  - **Glassmorphism UI**: Sleek interface integrated smoothly with 3D post-processing effects (N8AO, TiltShift, ToneMapping).
+
+## 🚀 Getting Started
+
+Because of the dual-app architecture, you need to run both applications simultaneously for the full experience.
+
+### Terminal 1: Next.js Landing Page (Port 3000)
+```bash
+cd furnitialism
+npm install
+npm run dev
+```
+
+### Terminal 2: Vite 3D Dashboard (Port 5173)
+```bash
+cd furnitialism-dashboard
+npm install
+npm run dev -- --host
+```
+*Note: The `--host` flag exposes the Vite server to your local network, enabling your mobile phone to scan QR codes and access the AR features directly.*
+
+## 📂 Project Structure
+
+- `furnitialism/`: Next.js marketing gateway and SEO backbone.
+- `furnitialism-dashboard/`: The core 3D application, WebXR implementation, and global state management.
+- `docs/`: Technical documentation, code standards, and system architecture.
+- `plans/`: Implementation plans and agent workflows.
+
+## 🤝 Development & Workflows
+This project is continually evolved using advanced Agentic AI workflows (ClaudeKit/Antigravity) emphasizing semantic commits, independent repos, and strict Git conventions.
