@@ -22,31 +22,24 @@ export const App = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  // Sync state "view" -> URL
+  // Unified Sync State "view" <-> URL
   useEffect(() => {
-    if (location.pathname.startsWith('/ar/')) return;
+    const isAR = location.pathname.startsWith('/ar/');
+    if (isAR) return;
+
+    const pathView = location.pathname === '/shop' ? 'products' : 'home';
     
-    if (view === 'home' && location.pathname !== '/shop/showroom') {
-      navigate('/shop/showroom', { replace: true });
-    } else if (view === 'products' && location.pathname !== '/shop') {
-      navigate('/shop', { replace: true });
+    // Sync URL -> View
+    if (pathView !== view) {
+      setView(pathView);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view]); // ONLY react to view changes to prevent race conditions
 
-  // Sync URL -> state "view"
-  useEffect(() => {
-    if (location.pathname.startsWith('/ar/')) return;
-
-    if (location.pathname === '/shop/showroom' && view !== 'home') {
-      setView('home');
-    } else if (location.pathname === '/shop' && view !== 'products') {
-      setView('products');
-    } else if (location.pathname === '/' || location.pathname === '') {
-      navigate('/shop/showroom', { replace: true }); // Default route is showroom
+    // Sync View -> URL (Optional, but ensures consistency)
+    const targetPath = view === 'products' ? '/shop' : '/shop/showroom';
+    if (location.pathname !== targetPath && (location.pathname === '/' || location.pathname === '')) {
+      navigate(targetPath, { replace: true });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]); // ONLY react to URL changes to prevent race conditions
+  }, [location.pathname, view, navigate, setView]);
   const selectedData = selected ? FURNITURE_DATA[selected] : null
 
   const handleViewChange = (newView) => {
@@ -92,7 +85,17 @@ export const App = () => {
 
             {/* Main Content Area */}
             <div className="content-viewport">
-              <div style={{ display: view === 'home' ? 'block' : 'none', width: '100%', height: '100%' }}>
+              <div 
+                className="canvas-viewport"
+                style={{ 
+                  visibility: view === 'home' ? 'visible' : 'hidden', 
+                  opacity: view === 'home' ? 1 : 0,
+                  pointerEvents: view === 'home' ? 'auto' : 'none',
+                  position: 'absolute',
+                  inset: 0,
+                  transition: 'opacity 0.6s ease-in-out'
+                }}
+              >
                 <Canvas flat dpr={[1, 1.5]} gl={{ antialias: false }} camera={{ position: [0, 1, 6], fov: 25, near: 1, far: 20 }}>
                   <ambientLight intensity={1.5 * Math.PI} />
                   <Sky />
@@ -107,7 +110,18 @@ export const App = () => {
                 </Canvas>
               </div>
 
-              <div style={{ display: view === 'products' ? 'block' : 'none', width: '100%', height: '100%', overflowY: 'auto' }}>
+              <div 
+                className="products-viewport"
+                style={{ 
+                  visibility: view === 'products' ? 'visible' : 'hidden', 
+                  opacity: view === 'products' ? 1 : 0,
+                  pointerEvents: view === 'products' ? 'auto' : 'none',
+                  position: 'absolute',
+                  inset: 0,
+                  overflowY: 'auto',
+                  transition: 'opacity 0.6s ease-in-out'
+                }}
+              >
                 <div className="product-grid-container">
                   <header className="grid-header">
                     <h1>The Collection</h1>

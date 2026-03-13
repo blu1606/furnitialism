@@ -9,6 +9,7 @@ export function Kitchen(props) {
   const setSelected = useStore((state) => state.setSelected)
   // Load model
   const { nodes, materials } = useGLTF("/kitchen-transformed.glb")
+
   // Load environment
   const env = useEnvironment({ preset: "city" })
   // Hover state
@@ -58,7 +59,9 @@ export function Kitchen(props) {
       <Text position={[1, 1.25, 0]} color="black" fontSize={0.15} letterSpacing={-0.05}>
         {hovered ? hovered : "KNOXHULT"}
       </Text>
-      <Price value={price} position={[-2, 0.3, -3.25]} color="#ffffff" />
+      <Price value={price} position={[-2, 0.3, -3.25]} color={[3, 3, 3]} />
     </>
   )
 }
+
+useGLTF.preload('/kitchen-transformed.glb')
