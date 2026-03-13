@@ -3,7 +3,6 @@
 @theme inline {
   --color-primary: #d4a373;
   --color-background-light: #fafaf9;
-  --color-background-dark: #0c0a09;
   --color-arctic-cyan: #00d2ff;
   
   --shadow-premium: 0 40px 100px -20px rgba(0, 0, 0, 0.15);
@@ -34,13 +33,6 @@
 :root {
   --background: #fafaf9;
   --foreground: #1c1917;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0c0a09;
-    --foreground: #fafaf9;
-  }
 }
 
 body {
