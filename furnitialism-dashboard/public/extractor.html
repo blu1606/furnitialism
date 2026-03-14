@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mesh Extractor</title>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.183.2/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.183.2/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body>
+    <h1>Extracting Meshes...</h1>
+    <div id="status">Ready.</div>
+    <div id="results"></div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+        import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+
+        const PRODUCT_NODE_MAP = {
+            'BRONDEN': { sourceGlb: 'kitchen-transformed.glb', nodeNames: ['carpet'] },
+            'VOXLOV': { sourceGlb: 'kitchen-transformed.glb', nodeNames: ['table'] },
+            'FANBYN': { sourceGlb: 'kitchen-transformed.glb', nodeNames: ['chairs_1', 'chairs_2'] },
+            'LIVSVERK': { sourceGlb: 'kitchen-transformed.glb', nodeNames: ['vase'] },
+            'SKAFTET': { sourceGlb: 'kitchen-transformed.glb', nodeNames: ['lamp_socket', 'lamp', 'lamp_cord'] },
+            'KNOXHULT': { sourceGlb: 'kitchen-transformed.glb', nodeNames: ['kitchen'] },
+            'SOFA': { sourceGlb: 'white_modern_living_room-transformed.glb', nodeNames: ['Sofa_Sofa_0'] },
+            'COFFEE_TABLE': { sourceGlb: 'white_modern_living_room-transformed.glb', nodeNames: ['CoffeeTable_CoffeeTable_0'] },
+            'TV': { sourceGlb: 'white_modern_living_room-transformed.glb', nodeNames: ['TV_TV_0', 'TVStand_TVStand_0'] },
+            'ABSTRACT_ART': { sourceGlb: 'white_modern_living_room-transformed.glb', nodeNames: ['AbstractArt_AbstractArt_0', 'PictureFrame_Material_0'] },
+        };
+
+        const loader = new GLTFLoader();
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
+        loader.setDRACOLoader(dracoLoader);
+        const exporter = new GLTFExporter();
+
+        async function extract() {
+            const cache = {};
+            const results = {};
+
+            for (const [id, config] of Object.entries(PRODUCT_NODE_MAP)) {
+                try {
+                    document.getElementById('status').innerText = `Extracting ${id}...`;
+                    if (!cache[config.sourceGlb]) {
+                        console.log('Loading', config.sourceGlb);
+                        cache[config.sourceGlb] = await new Promise((res, rej) => loader.load(config.sourceGlb, res, null, rej));
+                    }
+
+                    const gltf = cache[config.sourceGlb];
+                    const nodes = [];
+                    gltf.scene.traverse(node => {
+                        if (config.nodeNames.includes(node.name)) nodes.push(node);
+                    });
+
+                    if (nodes.length === 0) throw new Error('Nodes not found');
+
+                    const group = new THREE.Group();
+                    nodes.forEach(n => group.add(n.clone(true)));
+
+                    const data = await new Promise((res) => exporter.parse(group, res, { binary: true }));
+                    const base64 = btoa(String.fromCharCode(...new Uint8Array(data)));
+                    results[id] = base64;
+                    
+                    const div = document.createElement('div');
+                    div.id = `result-${id}`;
+                    div.innerText = base64;
+                    div.style.display = 'none';
+                    document.getElementById('results').appendChild(div);
+                    console.log(`Success: ${id}`);
+                } catch (e) {
+                    console.error(`Error ${id}:`, e);
+                }
+            }
+            document.getElementById('status').innerText = 'DONE';
+        }
+
+        extract();
+    </script>
+</body>
+</html>

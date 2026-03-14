@@ -22,6 +22,24 @@ export const App = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
+  const [renderHome, setRenderHome] = useState(view === 'home')
+  const [renderProducts, setRenderProducts] = useState(view === 'products')
+
+  useEffect(() => {
+    if (view === 'home') setRenderHome(true)
+    else {
+      const t = setTimeout(() => setRenderHome(false), 600)
+      return () => clearTimeout(t)
+    }
+  }, [view])
+
+  useEffect(() => {
+    if (view === 'products') setRenderProducts(true)
+    else {
+      const t = setTimeout(() => setRenderProducts(false), 600)
+      return () => clearTimeout(t)
+    }
+  }, [view])
   // Unified Sync State "view" <-> URL
   useEffect(() => {
     const isAR = location.pathname.startsWith('/ar/');
@@ -96,18 +114,20 @@ export const App = () => {
                   transition: 'opacity 0.6s ease-in-out'
                 }}
               >
-                <Canvas flat dpr={[1, 1.5]} gl={{ antialias: false }} camera={{ position: [0, 1, 6], fov: 25, near: 1, far: 20 }}>
-                  <ambientLight intensity={1.5 * Math.PI} />
-                  <Sky />
-                  <Bvh firstHitOnly>
-                    <Selection>
-                      <Effects />
-                      <CameraTracker />
-                      {orbitEnabled && <OrbitControls makeDefault enableDamping dampingFactor={0.05} />}
-                      <Scene rotation={[0, Math.PI / 2, 0]} position={[0, -1, -0.85]} />
-                    </Selection>
-                  </Bvh>
-                </Canvas>
+                {renderHome && (
+                  <Canvas flat dpr={[1, 1.5]} gl={{ antialias: false }} camera={{ position: [0, 1, 6], fov: 25, near: 1, far: 20 }}>
+                    <ambientLight intensity={1.5 * Math.PI} />
+                    <Sky />
+                    <Bvh firstHitOnly>
+                      <Selection>
+                        <Effects />
+                        <CameraTracker />
+                        {orbitEnabled && <OrbitControls makeDefault enableDamping dampingFactor={0.05} />}
+                        <Scene rotation={[0, Math.PI / 2, 0]} position={[0, -1, -0.85]} />
+                      </Selection>
+                    </Bvh>
+                  </Canvas>
+                )}
               </div>
 
               <div 
@@ -122,39 +142,41 @@ export const App = () => {
                   transition: 'opacity 0.6s ease-in-out'
                 }}
               >
-                <div className="product-grid-container">
-                  <header className="grid-header">
-                    <h1>The Collection</h1>
-                    <p>Explore our premium modular furniture designed for high-end living.</p>
-                  </header>
-                  <div className="product-grid">
-                    {Object.values(FURNITURE_DATA).map((product) => (
-                      <div key={product.id} className="product-card glass-panel" onClick={() => setSelected(product.id)}>
-                        <div className="product-image">
-                          <img src={product.image} alt={product.name} />
-                          <div className="product-image-actions">
-                            <button className="ai-search-btn" onClick={(e) => { e.stopPropagation(); handleAISearch(product.id); }}>
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
-                              <span>AI Search</span>
-                            </button>
-                            <button className="view-3d-btn" onClick={(e) => { e.stopPropagation(); setStandaloneView(product.id); }}>
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44a.97.97 0 0 1-.94 0l-7.9-4.44A.991.991 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.09.34-.14.52-.14s.36.05.52.14l7.9 4.44c.32.17.53.5.53.88v9z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                              <span>View 3D</span>
-                            </button>
+                {renderProducts && (
+                  <div className="product-grid-container">
+                    <header className="grid-header">
+                      <h1>The Collection</h1>
+                      <p>Explore our premium modular furniture designed for high-end living.</p>
+                    </header>
+                    <div className="product-grid">
+                      {Object.values(FURNITURE_DATA).map((product) => (
+                        <div key={product.id} className="product-card glass-panel" onClick={() => setSelected(product.id)}>
+                          <div className="product-image">
+                            <img src={product.image} alt={product.name} />
+                            <div className="product-image-actions">
+                              <button className="ai-search-btn" onClick={(e) => { e.stopPropagation(); handleAISearch(product.id); }}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+                                <span>AI Search</span>
+                              </button>
+                              <button className="view-3d-btn" onClick={(e) => { e.stopPropagation(); setStandaloneView(product.id); }}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44a.97.97 0 0 1-.94 0l-7.9-4.44A.991.991 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.09.34-.14.52-.14s.36.05.52.14l7.9 4.44c.32.17.53.5.53.88v9z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                                <span>View 3D</span>
+                              </button>
+                            </div>
+                          </div>
+                          <div className="product-info">
+                            <h3>{product.name}</h3>
+                            <span className="price">${product.price.toLocaleString()}</span>
+                            <button className="add-btn-small" onClick={(e) => { 
+                              e.stopPropagation(); 
+                              addToCart(product, [0,0,0]); // Pass dummy pos to trigger anim state
+                            }}>Add to Cart</button>
                           </div>
                         </div>
-                        <div className="product-info">
-                          <h3>{product.name}</h3>
-                          <span className="price">${product.price.toLocaleString()}</span>
-                          <button className="add-btn-small" onClick={(e) => { 
-                            e.stopPropagation(); 
-                            addToCart(product, [0,0,0]); // Pass dummy pos to trigger anim state
-                          }}>Add to Cart</button>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
 

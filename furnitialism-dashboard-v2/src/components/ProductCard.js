@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useStore } from '../store';
 import Rating from './Rating';
 import { Eye, Box, QrCode } from 'lucide-react';
+import { useTranslation } from '../i18n';
 
 const ProductCard = ({ product }) => {
   const { setView, setSelected, addToCart, setStandaloneView, setScanning } = useStore();
+  const { t } = useTranslation();
 
   const handleAISearch = (e) => {
     e.stopPropagation();
@@ -37,7 +39,7 @@ const ProductCard = ({ product }) => {
           <div className="absolute top-4 left-4 z-10">
             <div className="bg-[#d4a373] text-[#1c1917] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter shadow-lg flex items-center gap-1.5 opacity-90 backdrop-blur-sm">
                <span className="material-symbols-outlined text-[14px]">view_in_ar</span>
-               3D / AR
+               {t('product_card.3d_ar')}
             </div>
           </div>
         )}
@@ -58,7 +60,7 @@ const ProductCard = ({ product }) => {
         <div className="product-image-actions opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto">
           <button className="view-details-btn" onClick={goToPDP}>
             <Eye size={16} />
-            View Details
+            {t('product_card.view_details')}
           </button>
           
           {product.has3D && (
@@ -68,18 +70,18 @@ const ProductCard = ({ product }) => {
                 onClick={(e) => { e.stopPropagation(); setSelected(product.id); setView('home'); }}
               >
                 <span className="material-symbols-outlined text-base">layers</span>
-                Showroom
+                {t('product_card.showroom')}
               </button>
               <button
                 className="view-3d-btn"
                 onClick={(e) => { e.stopPropagation(); setStandaloneView(product.id); }}
               >
                 <Box size={16} />
-                3D View
+                {t('product_card.3d_view')}
               </button>
               <button className="ai-search-btn" onClick={handleAISearch}>
                 <span className="material-symbols-outlined text-base">search</span>
-                AI Search
+                {t('product_card.ai_search')}
               </button>
               {product.hasAR && (
                 <button
@@ -87,7 +89,7 @@ const ProductCard = ({ product }) => {
                   onClick={(e) => { e.stopPropagation(); setSelected(product.id); setView('pdp'); }}
                 >
                   <QrCode size={16} />
-                  QR AR
+                  {t('product_card.qr_ar')}
                 </button>
               )}
             </>
@@ -114,7 +116,7 @@ const ProductCard = ({ product }) => {
             }}
           >
             <span className="material-symbols-outlined text-lg">add_shopping_cart</span>
-            Add to Cart
+            {t('product_card.add_to_cart')}
           </button>
         </div>
       </div>
