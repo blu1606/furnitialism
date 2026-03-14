@@ -1,15 +1,16 @@
-# System Architecture: Smart 3D Interior
+# System Architecture: Furnitialism
 
 ## High-Level Architecture
-Smart 3D Interior is a Single Page Application (SPA) that seamlessly integrates a high-performance 3D gaming environment with a modern E-commerce interface.
+**Furnitialism** is a Single Page Application (SPA) that seamlessly integrates a high-performance 3D gaming environment with a modern E-commerce interface.
 
 ## Technology Stack
-- **Frontend Framework:** React
+- **Frontend Framework:** React (Vite-powered)
 - **3D Engine:** React Three Fiber (R3F) / Three.js
-- **State Management:** Zustand
+- **State Management:** Zustand (Single source of truth)
 - **Animations:** Framer Motion (2D), `maath/easing` (3D)
 - **Post-Processing:** `@react-three/postprocessing` (N8AO, Bloom, TiltShift)
 - **AI Simulation:** Custom state machines and reactive logic for AI Assistant and AI Forge.
+- **AR Implementation:** WebXR-compatible mobile AR viewer.
 
 ## Core Modules
 

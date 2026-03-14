@@ -6,7 +6,6 @@ import { Sky, Bvh, OrbitControls } from "@react-three/drei"
 import { EffectComposer, Selection, Outline, N8AO, TiltShift2 } from "@react-three/postprocessing"
 import { Scene } from "./Scene"
 import { useStore, FURNITURE_DATA } from "./store"
-import { useTranslation } from "./i18n"
 import { CheckoutOverlay } from "./CheckoutOverlay"
 import AIChat from "./AIChat"
 import { CoreHub } from "./CoreHub"
@@ -26,7 +25,6 @@ import ProductDetail from "./components/ProductDetail"
 
 export const App = () => {
   const { view, setView, room, setRoom, isScanning, setScanning, orbitEnabled, setOrbitEnabled, selected, setSelected, clearSelected, addToCart, cart, removeFromCart, checkoutStep, setCheckoutStep, showCart, setShowCart, standaloneView, setStandaloneView, isSelecting, filters, sortBy, setSortBy } = useStore()
-  const { t } = useTranslation()
   const [isTransitioning, setTransitioning] = useState(false)
   const [shouldRenderCanvas, setShouldRenderCanvas] = useState(view === 'home')
   const [webglSupported, setWebglSupported] = useState(() => isWebGLAvailable())
@@ -192,7 +190,7 @@ export const App = () => {
                 }}>
                   {!webglSupported || webglError ? (
                     <WebGLFallback
-                      message={webglError || t('app.webgl.notAvailable') || 'WebGL is not available on this device.'}
+                      message={webglError || 'WebGL is not available on this device.'}
                       onBrowse={() => setView('products')}
                       onRetry={() => {
                         setWebglSupported(isWebGLAvailable())
@@ -203,7 +201,7 @@ export const App = () => {
                   ) : (
                     <WebGLBoundary
                       key={`webgl-${webglResetKey}`}
-                      message={webglError || t('app.webgl.failed') || 'WebGL failed to initialize.'}
+                      message={webglError || 'WebGL failed to initialize.'}
                       onBrowse={() => setView('products')}
                       onRetry={() => {
                         setWebglSupported(isWebGLAvailable())
@@ -288,9 +286,9 @@ export const App = () => {
                 <div className="scanning-grid"></div>
                 <div className="scanner-line"></div>
                 <div className="scanning-text">
-                  <h2>{t('app.scanning.title') || 'AI Analyzing 3D Models...'}</h2>
-                  <p>{t('app.scanning.subtitle') || 'Locating furniture in digital twin environment'}</p>
-                </div>
+                   <h2>AI Analyzing 3D Models...</h2>
+                   <p>Locating furniture in digital twin environment</p>
+                 </div>
               </div>
             )}
 
@@ -315,7 +313,7 @@ export const App = () => {
                   </div>
                   <div className="spec-item">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                    <span>{selectedData.stock} {t('app.panel.inStock') || 'in stock'}</span>
+                    <span>{selectedData.stock} in stock</span>
                   </div>
                 </div>
                 <button className="add-btn" onClick={(e) => {
@@ -324,11 +322,11 @@ export const App = () => {
                   addToCart(selectedData, [0, 1, 0], selectedData.image);
                 }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                  {t('app.panel.addToCart') || 'Add to Cart'}
+                   Add to Cart
                 </button>
                 <button className="view-3d-btn-large" onClick={() => setStandaloneView(selected)}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44a.97.97 0 0 1-.94 0l-7.9-4.44A.991.991 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.09.34-.14.52-.14s.36.05.52.14l7.9 4.44c.32.17.53.5.53.88v9z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                  {t('app.panel.standaloneView') || 'Standalone 3D View'}
+                   Standalone 3D View
                 </button>
               </div>
             )}
@@ -338,7 +336,7 @@ export const App = () => {
               <div className="cart-header">
                 <div className="cart-header-title">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                  <span>{t('app.cart.title') || 'Cart'} ({cart.length})</span>
+                   <span>Cart ({cart.length})</span>
                 </div>
                 <button className="close-cart" onClick={() => setShowCart(false)}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -359,17 +357,17 @@ export const App = () => {
                     </button>
                   </div>
                 ))}
-                {cart.length === 0 && <p className="empty-msg">{t('app.cart.empty') || 'Your selection is empty'}</p>}
+                 {cart.length === 0 && <p className="empty-msg">Your selection is empty</p>}
               </div>
               {cart.length > 0 && (
                 <>
-                  <div className="cart-total">
-                    <span>{t('app.cart.subtotal') || 'Subtotal'}</span>
+                   <div className="cart-total">
+                     <span>Subtotal</span>
                     <span className="total-amount">${cart.reduce((acc, item) => acc + item.price, 0).toLocaleString()}</span>
                   </div>
-                  <button className="checkout-btn btn-primary" onClick={() => { setShowCart(false); setCheckoutStep('details'); }}>
-                    {t('app.cart.checkout') || 'Secure Checkout'}
-                  </button>
+                   <button className="checkout-btn btn-primary" onClick={() => { setShowCart(false); setCheckoutStep('details'); }}>
+                     Secure Checkout
+                   </button>
                 </>
               )}
             </div>

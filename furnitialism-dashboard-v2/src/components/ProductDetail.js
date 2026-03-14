@@ -3,14 +3,14 @@ import { useStore, FURNITURE_DATA } from '../store';
 import Rating from './Rating';
 import { ChevronLeft, QrCode } from 'lucide-react';
 import { ArQRCodeModal } from '../ArQRCodeModal';
-import { useTranslation } from '../i18n';
 
 const ProductDetail = () => {
   const { selected, setView, addToCart, setStandaloneView, setScanning } = useStore();
-  const { t } = useTranslation();
   const product = FURNITURE_DATA[selected] || FURNITURE_DATA.FANBYN; // Fallback
   const [activeTab, setActiveTab] = useState('description');
   const [showQR, setShowQR] = useState(false);
+
+  const tabLabels = { description: 'Description', specifications: 'Specifications', reviews: 'Reviews' };
 
   const handleAddToCart = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -33,7 +33,7 @@ const ProductDetail = () => {
           className="flex items-center gap-2 text-slate-400 hover:text-[#d4a373] transition-all mb-10 group font-bold text-[10px] tracking-[0.2em] uppercase"
         >
           <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          {t('product_detail.back_to_collection')}
+          Back to Collection
         </button>
 
         <div className="flex flex-col lg:flex-row gap-16 items-start">
@@ -62,8 +62,8 @@ const ProductDetail = () => {
                       </div>
                     </div>
                     <div className="text-center">
-                      <p className="text-[9px] font-black uppercase tracking-widest text-slate-900">{t('product_detail.scan_for_ar')}</p>
-                      <p className="text-[8px] font-bold text-[#d4a373] uppercase tracking-tighter">{t('product_detail.view_in_room')}</p>
+                      <p className="text-[9px] font-black uppercase tracking-widest text-slate-900">Scan for AR</p>
+                      <p className="text-[8px] font-bold text-[#d4a373] uppercase tracking-tighter">View in your room</p>
                     </div>
                   </div>
                 </div>
@@ -111,44 +111,44 @@ const ProductDetail = () => {
                 className="w-full py-5 bg-[#d4a373] hover:bg-slate-900 text-white font-black tracking-[0.2em] text-[11px] uppercase transition-all shadow-xl shadow-[#d4a373]/10 active:scale-[0.98] flex items-center justify-center gap-3 rounded-full"
               >
                 <span className="material-symbols-outlined text-xl">add_shopping_cart</span>
-                {t('product_detail.add_to_cart')}
+                Add to Cart
               </button>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <button
                   className="w-full py-4 border border-slate-200 hover:border-[#d4a373] hover:text-[#d4a373] text-slate-400 font-black tracking-[0.2em] text-[11px] uppercase transition-all rounded-full"
                   onClick={() => setStandaloneView(product.id)}
                 >
-                  {t('product_detail.3d_standalone')}
+                  3D Standalone
                 </button>
                 <button
                   className="w-full py-4 border border-slate-200 hover:border-[#d4a373] hover:text-[#d4a373] text-slate-400 font-black tracking-[0.2em] text-[11px] uppercase transition-all rounded-full"
                   onClick={() => setView('home')}
                 >
-                  {t('product_detail.view_in_showroom')}
+                  View in Showroom
                 </button>
               </div>
               <button className="w-full py-4 border border-slate-200 hover:border-[#d4a373] hover:text-[#d4a373] text-slate-400 font-black tracking-[0.2em] text-[11px] uppercase transition-all rounded-full" onClick={handleAISearch}>
-                {t('product_detail.ai_search')}
+                AI Search
               </button>
             </div>
 
             {/* Service Icons */}
-            <div className="grid grid-cols-2 gap-8 pt-8 border-t border-[#d4a373]/5">
-              <div className="flex items-center gap-4">
-                <span className="material-symbols-outlined text-slate-400">local_shipping</span>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-wider text-slate-900">{t('product_detail.white_glove')}</p>
-                  <p className="text-[10px] text-slate-400 uppercase tracking-tighter">{t('product_detail.delivery_included')}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="material-symbols-outlined text-slate-400">verified</span>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-wider text-slate-900">{t('product_detail.lifetime')}</p>
-                  <p className="text-[10px] text-slate-400 uppercase tracking-tighter">{t('product_detail.limited_warranty')}</p>
-                </div>
-              </div>
-            </div>
+             <div className="grid grid-cols-2 gap-8 pt-8 border-t border-[#d4a373]/5">
+               <div className="flex items-center gap-4">
+                 <span className="material-symbols-outlined text-slate-400">local_shipping</span>
+                 <div>
+                   <p className="text-[10px] font-black uppercase tracking-wider text-slate-900">White Glove</p>
+                   <p className="text-[10px] text-slate-400 uppercase tracking-tighter">Delivery Included</p>
+                 </div>
+               </div>
+               <div className="flex items-center gap-4">
+                 <span className="material-symbols-outlined text-slate-400">verified</span>
+                 <div>
+                   <p className="text-[10px] font-black uppercase tracking-wider text-slate-900">Lifetime</p>
+                   <p className="text-[10px] text-slate-400 uppercase tracking-tighter">Limited Warranty</p>
+                 </div>
+               </div>
+             </div>
           </div>
         </div>
 
@@ -157,25 +157,25 @@ const ProductDetail = () => {
           <div className="flex gap-16 border-b border-black/[0.05] mb-12">
             {['description', 'specifications', 'reviews'].map(tab => (
               <button 
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`pb-8 text-[10px] font-black tracking-[0.3em] transition-all relative uppercase ${
-                  activeTab === tab ? 'text-[#d4a373]' : 'text-black/30 hover:text-black'
-                }`}
-              >
-                {t(`product_detail.tabs.${tab}`)}
-                {activeTab === tab && <div className="absolute bottom-0 left-0 w-full h-[3px] bg-[#d4a373] rounded-full"></div>}
+                 key={tab}
+                 onClick={() => setActiveTab(tab)}
+                 className={`pb-8 text-[10px] font-black tracking-[0.3em] transition-all relative uppercase ${
+                   activeTab === tab ? 'text-[#d4a373]' : 'text-black/30 hover:text-black'
+                 }`}
+               >
+                 {tabLabels[tab]}
+                 {activeTab === tab && <div className="absolute bottom-0 left-0 w-full h-[3px] bg-[#d4a373] rounded-full"></div>}
               </button>
             ))}
           </div>
 
           <div className="min-h-[300px] text-black/60 leading-relaxed text-lg font-medium">
-            {activeTab === 'description' && (
-              <div className="max-w-3xl space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                <p>{t('product_detail.description_p1', { name: product.name })}</p>
-                <p>{t('product_detail.description_p2')}</p>
-              </div>
-            )}
+           {activeTab === 'description' && (
+             <div className="max-w-3xl space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+               <p>{`The ${product.name} represents the pinnacle of modern furniture design. Each piece is meticulously crafted using premium materials and cutting-edge manufacturing techniques to deliver both aesthetic excellence and lasting durability.`}</p>
+               <p>Designed for the discerning collector, this piece seamlessly integrates into contemporary living spaces while making a bold design statement.</p>
+             </div>
+           )}
 
             {activeTab === 'specifications' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-24 gap-y-6 max-w-5xl animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -185,25 +185,25 @@ const ProductDetail = () => {
                     <span className="text-[#1c1917] font-bold">{spec.value}</span>
                   </div>
                 ))}
-                <div className="flex justify-between py-6 border-b border-black/[0.05]">
-                  <span className="font-black text-black/20 tracking-wider text-[10px] uppercase">{t('product_detail.dimensions')}</span>
-                  <span className="text-[#1c1917] font-bold">{product.dimensions}</span>
-                </div>
-                <div className="flex justify-between py-6 border-b border-black/[0.05]">
-                  <span className="font-black text-black/20 tracking-wider text-[10px] uppercase">{t('product_detail.model_code')}</span>
-                  <span className="text-[#1c1917] font-bold">FRN-2024-{product.id}-X</span>
-                </div>
+                 <div className="flex justify-between py-6 border-b border-black/[0.05]">
+                   <span className="font-black text-black/20 tracking-wider text-[10px] uppercase">Dimensions</span>
+                   <span className="text-[#1c1917] font-bold">{product.dimensions}</span>
+                 </div>
+                 <div className="flex justify-between py-6 border-b border-black/[0.05]">
+                   <span className="font-black text-black/20 tracking-wider text-[10px] uppercase">Model Code</span>
+                   <span className="text-[#1c1917] font-bold">FRN-2024-{product.id}-X</span>
+                 </div>
               </div>
             )}
 
             {activeTab === 'reviews' && (
               <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
                 <div className="flex items-center gap-16 bg-white border border-black/5 p-12 rounded-[40px] shadow-sm">
-                   <div className="text-center">
-                      <p className="text-7xl font-black text-[#1c1917] mb-4 tracking-tighter">{product.rating}</p>
-                      <Rating value={product.rating} showCount={false} />
-                      <p className="text-[10px] font-black text-black/30 mt-6 tracking-[0.2em]">{t('product_detail.based_on_reviews', { count: product.reviewCount })}</p>
-                   </div>
+                    <div className="text-center">
+                       <p className="text-7xl font-black text-[#1c1917] mb-4 tracking-tighter">{product.rating}</p>
+                       <Rating value={product.rating} showCount={false} />
+                       <p className="text-[10px] font-black text-black/30 mt-6 tracking-[0.2em]">{`BASED ON ${product.reviewCount} REVIEWS`}</p>
+                    </div>
                    <div className="flex-1 space-y-4">
                       {[5,4,3,2,1].map(s => (
                         <div key={s} className="flex items-center gap-6">

@@ -1,19 +1,17 @@
 import React from 'react';
 import { useStore } from '../store';
-import { useTranslation } from '../i18n';
 
 const Header = () => {
     const { view, setView, setShowCart, cart, setShowForge, filters, setFilters } = useStore();
-    const { t } = useTranslation();
 
     const categories = [
-        { id: 'All', label: t('header.categories.all') },
-        { id: 'Living Room', label: t('header.categories.living_room') },
-        { id: 'Chairs', label: t('header.categories.chairs') },
-        { id: 'Dining Tables', label: t('header.categories.dining_tables') },
-        { id: 'Kitchen', label: t('header.categories.kitchen') },
-        { id: 'Decor', label: t('header.categories.decor') },
-        { id: 'Lighting', label: t('header.categories.lighting') }
+        { id: 'All', label: 'All' },
+        { id: 'Living Room', label: 'Living Room' },
+        { id: 'Chairs', label: 'Chairs' },
+        { id: 'Dining Tables', label: 'Dining Tables' },
+        { id: 'Kitchen', label: 'Kitchen' },
+        { id: 'Decor', label: 'Decor' },
+        { id: 'Lighting', label: 'Lighting' }
     ];
 
     return (
@@ -24,7 +22,7 @@ const Header = () => {
                     <div className="flex-shrink-0 flex items-center gap-3 cursor-pointer" onClick={() => setView('landing')}>
                         <span className="material-symbols-outlined text-[#d4a373] text-3xl">chair</span>
                         <h1 className="font-display text-xl font-bold tracking-tight text-slate-900 leading-none">
-                            {t('header.logo_title')}<br /><span className="text-[#d4a373] text-sm tracking-[0.2em]">{t('header.logo_subtitle')}</span>
+                            FURNITIALISM<br /><span className="text-[#d4a373] text-sm tracking-[0.2em]">Smart 3D Interior</span>
                         </h1>
                     </div>
 
@@ -34,7 +32,7 @@ const Header = () => {
                                 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
                                 <input
                                     className="w-full pl-10 pr-4 py-2.5 bg-[#fafaf9] border-none rounded-xl focus:ring-2 focus:ring-[#d4a373]/50 transition-all placeholder:text-slate-400 text-sm"
-                                    placeholder={t('header.search_placeholder')}
+                                    placeholder="Search curated collections..."
                                     type="text"
                                     value={filters.searchQuery}
                                     onChange={(e) => setFilters({ searchQuery: e.target.value })}
@@ -46,26 +44,26 @@ const Header = () => {
                     <div className="flex items-center gap-6">
                         <button className="hidden lg:flex items-center gap-1 hover:text-[#d4a373] transition-colors" onClick={() => setView('home')}>
                             <span className="material-symbols-outlined">explore</span>
-                            <span className="text-xs font-semibold uppercase tracking-wider">{t('header.showroom')}</span>
+                            <span className="text-xs font-semibold uppercase tracking-wider">Showroom</span>
                         </button>
                         <button className="hidden lg:flex items-center gap-1 hover:text-[#d4a373] transition-colors" onClick={() => setShowForge(true)}>
                             <span className="material-symbols-outlined">auto_awesome</span>
-                            <span className="text-xs font-semibold uppercase tracking-wider">{t('header.ai_forge')}</span>
+                            <span className="text-xs font-semibold uppercase tracking-wider">AI Forge</span>
                         </button>
                         <button className="flex items-center gap-1 hover:text-[#d4a373] transition-colors group" onClick={() => setView('products')}>
                             <span className="material-symbols-outlined">person</span>
-                            <span className="text-xs font-semibold hidden lg:block uppercase tracking-wider">{t('header.account')}</span>
+                            <span className="text-xs font-semibold hidden lg:block uppercase tracking-wider">Account</span>
                         </button>
                         <button className="flex items-center gap-1 hover:text-[#d4a373] transition-colors" onClick={() => setView('products')}>
                             <span className="material-symbols-outlined">package</span>
-                            <span className="text-xs font-semibold hidden lg:block uppercase tracking-wider">{t('header.orders')}</span>
+                            <span className="text-xs font-semibold hidden lg:block uppercase tracking-wider">Orders</span>
                         </button>
                         <button 
                             className="flex items-center gap-1 hover:text-[#d4a373] transition-colors relative"
                             onClick={() => setShowCart(true)}
                         >
                             <span className="material-symbols-outlined">shopping_cart</span>
-                            <span className="text-xs font-semibold hidden lg:block uppercase tracking-wider">{t('header.cart')}</span>
+                            <span className="text-xs font-semibold hidden lg:block uppercase tracking-wider">Cart</span>
                             {cart.length > 0 && (
                                 <span className="absolute -top-1 -right-1 bg-[#d4a373] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
                                     {cart.length}

@@ -3,8 +3,6 @@ import { create } from 'zustand'
 export const useStore = create((set) => ({
   view: 'landing', // 'landing', 'home' (3D), 'products' (Grid)
   room: 'kitchen', // 'kitchen' or 'living-room'
-  locale: 'en', // 'en' or 'vi'
-  setLocale: (locale) => set({ locale }),
   isScanning: false,
   selected: null,
   orbitEnabled: false,

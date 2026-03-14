@@ -6,7 +6,8 @@ The project is a React-based 3D web application focused on furniture cataloging 
 ## Core Directories
 
 ### `src/` (Source Code)
-- **`App.js`**: Main entry point, manages high-level UI overlays and the R3F `Canvas`.
+- **`App.js`**: Main entry point, manages high-level UI overlays, routing, and the R3F `Canvas`.
+- **`Landing.js`**: Premium landing page with marketing sections and entry point to showroom.
 - **`store.js`**: Central Zustand store managing UI state, cart, selected objects, and `FURNITURE_DATA`.
 - **`Scene.js`**: Orchestrates the 3D scene, switching between room components based on store state.
 - **Room Components**:
@@ -19,6 +20,8 @@ The project is a React-based 3D web application focused on furniture cataloging 
     - `AIForge.js`: Image-to-3D workflow mockup.
     - `ObjectViewer.js`: Standalone 3D model viewer.
     - `CheckoutOverlay.js`: Multi-step checkout process.
+    - `ArQRCodeModal.jsx`: Generates QR codes for mobile AR redirection.
+    - `MobileARViewer.jsx`: Dedicated view for mobile AR experiences.
 
 ### `public/` (Assets)
 - **3D Models**: `.glb` files for rooms and furniture (e.g., `kitchen-transformed.glb`, `simple_modern_living_room.glb`).

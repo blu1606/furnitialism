@@ -1,9 +1,9 @@
 ## Project Roadmap
 
 ## Status Overview
-- **Current Progress**: ~66%
-- **Current Version**: v1.0.0-beta
-- **Active Phase**: Phase 3 (UI Integration & Feature Refinement)
+- **Current Progress**: ~80%
+- **Current Version**: v1.5.0-beta
+- **Active Phase**: Phase 3 (Advanced XR & AI Refinement)
 
 ## Completed Milestones
 - [x] Initial R3F setup and Kitchen scene implementation.
@@ -13,12 +13,13 @@
 - [x] AI Chat basic UI and selection logic.
 - [x] ObjectViewer for standalone 3D inspection.
 - [x] **UI/UX Analysis**: Comprehensive analysis of user flows and UX laws application.
+- [x] **Augmented Reality (AR)**: Mobile viewer and QR integration completed.
 
-### Phase 2: Acceleration (66% Complete)
+### Phase 2: Acceleration (80% Complete)
 - [x] AI Forge Image-to-3D Reconstruction Pipeline
 - [x] Enhanced UI Design System & Glassmorphism
+- [x] Augmented Reality Search & Preview Foundations.
 - [ ] Multimodal AI Chat Integration (Drafting)
-- [ ] Contextual AR Search Foundations.
 
 ## Near-Term Tasks (Next 1-2 Weeks)
 - [x] **UX Strategy Documentation**: Documentation of UX principles and slide deck outline.
