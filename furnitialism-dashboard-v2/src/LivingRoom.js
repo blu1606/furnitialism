@@ -1,5 +1,4 @@
-import { useState, useCallback } from "react"
-import { debounce } from "lodash"
+import { useState, useCallback, useRef } from "react"
 import { useGLTF, useEnvironment, Text } from "@react-three/drei"
 import { Select } from "@react-three/postprocessing"
 import { Price } from "./Price"
@@ -11,7 +10,14 @@ export function LivingRoom(props) {
   const env = useEnvironment({ preset: "city" })
 
   const [hovered, hover] = useState(null)
-  const debouncedHover = useCallback(debounce(hover, 30), [])
+  
+  // Native debounce implementation
+  const timeoutRef = useRef(null)
+  const debouncedHover = useCallback((value) => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => hover(value), 30)
+  }, [])
+
   const over = (name) => (e) => (e.stopPropagation(), debouncedHover(name))
   const select = (name) => (e) => (e.stopPropagation(), setSelected(name))
 
